@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Cities{% endblock %}
+
+{% block body %}
+  {% if cities %}
+    <table id="cities" class="table table-striped">
+      <thead>
+        <tr>
+          <th>Zip</th>
+          <th>City</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for city in cities %}
+          <tr>
+            <td>{{ city.zip }}</td>
+            <td>{{ city.name }}</td>
+            <td>
+              <a href="/city/{{ city.id }}" class="btn btn-dark">Show</a>
+              <a href="/city/edit/{{ city.id }}" class="btn btn-light">Edit</a>
+              <a href="#" class="btn btn-danger delete-city" data-id="{{ city.id }}">Delete</a>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>No cities to display</p>
+  {% endif %}
+{% endblock %}
+
+{% block javascripts %}
+  <script src="/js/city.js"></script>
+{% endblock %}

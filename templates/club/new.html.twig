@@ -1,0 +1,71 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Clubs{% endblock %}
+{% block stylesheets %}
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+
+<style>
+    input, textarea, select{
+        display: block;
+        width: 100%; 
+    }
+    </style>
+{% endblock %}
+
+{% block javascripts %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js">
+</script> 
+<script>
+
+$(document).ready(function(){
+    console.log('TESY')
+     
+const thisForm = document.getElementById('task-form');
+console.log('its worksidn');
+
+
+thisForm.addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+      var elements = document.getElementById("task-form").elements;
+
+var name = document.getElementById("club_name").value;
+console.log(name)
+
+
+
+      
+    var obj ={};
+    for(var i = 0 ; i < elements.length ; i++){
+        var item = elements.item(i);
+        obj[item.name] = item.value;
+    }
+
+    console.log(obj)
+    const formData = new FormData(thisForm).entries();
+    console.log(JSON.stringify(Object.fromEntries(formData)));
+    var formDatwa = $("task-form").serializeArray()
+    console.log('formData', formDatwa)
+    const response = await fetch('http://localhost:8000/api/club/new', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({name: name})
+    });
+    alert('success')
+    const result = await response.json();
+    console.log(result)
+});
+
+})
+    </script>
+{% endblock %}
+
+{% block body %}
+{% if true %}
+    <p class="amount">testing</p>
+{% endif %}
+  {{ form_start(form) }}
+ {{ form_widget(form) }}
+ {{ form_end(form) }}
+{% endblock %}

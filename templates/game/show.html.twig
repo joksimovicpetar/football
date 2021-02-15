@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Game{% endblock %}
+
+{% block body %}
+   <h4>Date: {{ game.date|date("d/m/Y") }}</h4>
+   <hr>
+   <h4>Competition: {{ game.competition.name }}</h4>
+   <hr>
+   <h4>Host: {{ game.host.name }}</h4>
+   <hr>
+   <h4>Guest: {{ game.guest.name }}</h4>
+ <a href="/game">Go Back</a>
+{% endblock %}  

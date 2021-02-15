@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Players{% endblock %}
+
+{% block body %}
+  {% if players %}
+    <table id="players" class="table table-striped">
+      <thead>
+        <tr>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Personal Identifier</th>
+          <th>Date od Birth</th>
+          <th>Photo</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for player in players %}
+          <tr>
+            <td>{{ player.firstName }}</td>
+            <td>{{ player.lastName }}</td>
+            <td>{{ player.personalIdentifier }}</td>
+            <td>{{ player.dateOfBirth|date("d/m/Y")}}</td>
+            <td><img src="{{ asset("uploads/#{player.getProfileImage()}") }}" class="profileImage" style="height:100px"/></td>
+            <td>
+              <a href="/player/{{ player.id }}" class="btn btn-dark">Show</a>
+              <a href="/player/edit/{{ player.id }}" class="btn btn-light">Edit</a>
+              <a href="#" class="btn btn-danger delete-player" data-id="{{ player.id }}">Delete</a>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>No players to display</p>
+  {% endif %}
+{% endblock %}
+
+{% block javascripts %}
+  <script src="/js/player.js"></script>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ player.firstName }}{% endblock %}
+
+{% block body %}
+<h4>First Name:</h4>
+<h4>{{ player.firstName }}</h4>
+<hr>
+<h4>Last Name:</h4>
+<h4>{{ player.lastName }}</h4>
+<hr>
+<h4>Club:</h4>
+<h4>{{ player.personalIdentifier }}</h4>
+<hr>
+<h4>Club:</h4>
+<h4>{{ player.dateOfBirth|date("d/m/Y")}}</h4>
+<hr>
+<h4>City:</h4>
+<h4>{{ player.city.name}}</h4>
+<hr>
+<h4>Position:</h4>
+<h4>{{ player.position}}</h4>
+<hr>
+<img src="{{ asset("uploads/#{player.getProfileImage()}") }}" class="profileImage" style="height:100px"/>
+<hr>
+
+ <a href="/club">Go Back</a>
+{% endblock %}  

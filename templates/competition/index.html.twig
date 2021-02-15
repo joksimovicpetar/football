@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Competitions{% endblock %}
+
+{% block body %}
+  {% if competitions %}
+    <table id="competitions" class="table table-striped">
+      <thead>
+        <tr>
+          <th>Name</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for competition in competitions %}
+          <tr>
+            <td>{{ competition.name }}</td>
+            <td>
+              <a href="/competition/{{ competition.id }}" class="btn btn-dark">Show</a>
+              <a href="/competition/edit/{{ competition.id }}" class="btn btn-light">Edit</a>
+              <a href="#" class="btn btn-danger delete-competition" data-id="{{ competition.id }}">Delete</a>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>No competitions to display</p>
+  {% endif %}
+{% endblock %}
+
+{% block javascripts %}
+  <script src="/js/competition.js"></script>
+{% endblock %}

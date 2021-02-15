@@ -1,0 +1,114 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Performances{% endblock %}
+{% block stylesheets %}
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+
+<style>
+    input, textarea, select{
+        display: block;
+        width: 100%; 
+    }
+    </style>
+{% endblock %}
+{% block javascripts %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script> 
+<script>
+
+$(document).ready(function(){
+    console.log('TESY')
+      $('.select-tags').select2({
+                minimumInputLength:2,
+                ajax: {
+                    url: "http://localhost:8000/player",
+                    dataType: "json",
+                    delay: 200,
+                    
+                    data: function (params) {
+                        console.log(params)
+                        return {
+                        q: params.term, // search term
+                        page: params.page
+                    };
+                },
+                processResults: function (data) {
+                    // console.log(data);
+                    return {
+                        results: $.map(data, function(obj) {
+                            if(obj.id!=0){
+                            // console.log(obj);
+                            return { id: obj.id, text: obj.name };
+                        }
+                            else
+                                {return {id: obj.id, text: obj.name}}
+                        })
+                    };
+
+                },
+                cache: true
+            },
+            debug:false
+        });
+});
+const thisForm = document.getElementById('task-form');
+console.log('its worksidn');
+
+
+thisForm.addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+      var elements = document.getElementById("task-form").elements;
+    var obj ={};
+    for(var i = 0 ; i < elements.length ; i++){
+        var item = elements.item(i);
+        obj[item.name] = item.value;
+    }
+
+    console.log(obj)
+    const formData = new FormData(thisForm).entries();
+    console.log(JSON.stringify(Object.fromEntries(formData)));
+
+    const response = await fetch('http://localhost:8000/performance/new2', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(Object.fromEntries(formData))
+    });
+
+    const result = await response.json();
+    console.log(result)
+});
+
+$(".isProduct").click(function (e) {
+    let productId = $(this).attr('product_id')
+    let name = $(this).text()
+    $.ajax({
+        url: 'http://localhost:8000/performance/new2',
+        type: 'POST',
+        complete : function (response) {
+            $.toast({
+                heading: 'Produit ajouté avec succès',
+                text: 'Ajout de ' + name,
+                position: 'bottom-right',
+                loaderBg: '#ff6849',
+                icon: 'success',
+                hideAfter: 3000,
+                stack: 6
+            });
+            let nameProduct = response.responseJSON['name_product']
+            let input = '<li><b>'+ nameProduct +'</b> <small>0.75 L/ha</small></li>'
+            $('#products_list').append( input )
+        }
+    })
+})
+
+
+
+    </script>
+{% endblock %}
+
+{% block body %}
+  {{ form_start(form) }}
+ {{ form_widget(form) }}
+ {{ form_end(form) }}
+{% endblock %}

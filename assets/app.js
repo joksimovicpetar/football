@@ -21,25 +21,9 @@ const store = createStore(reducer, applyMiddleware(thunkMiddleware, tokenMiddlew
 
 const history = createBrowserHistory();
 
-// import { TodoContext } from './contexts/TodoContext';
-// import TodoContextProvider from './contexts/TodoContext';
-// import TodoTable from './components/TodoTable';
-// class App extends React.Component {
-//     render() {
-//         return (
-//             <TodoContextProvider>
-//                 <TodoTable/>
-//             </TodoContextProvider>
-//         )
-//     }
-// }
-
 ReactDOM.render((
 <Provider store={store}>
 <BrowserRouter >
-{/* <BrowserRouter history={history}> */}
-
-
         <Route path="/" component={App}/>
     </BrowserRouter>
 </Provider>

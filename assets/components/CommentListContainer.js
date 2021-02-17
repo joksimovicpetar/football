@@ -9,12 +9,14 @@ import  Spinner  from './Spinner';
 
 const mapStateToProps = state => ({
     ...state.commentList,
-    isAuthenticated: state.auth.isAuthenticated
+    isAuthenticated: state.auth.isAuthenticated,
+    isAdmin: state.auth.isAdmin
 })
 
 const mapDispatchToProps = {
     commentListFetch, commentListUnload
 }
+
 class CommentListContainer extends React.Component {
     componentDidMount() {
         this.props.commentListFetch(this.props.blogPostId)
@@ -24,14 +26,14 @@ class CommentListContainer extends React.Component {
         this.props.commentListUnload();
     }
     render() {
-        const {isFetching, commentList, isAuthenticated, blogPostId} = this.props;
+        const {isFetching, commentList, isAuthenticated, blogPostId, isAdmin} = this.props;
         if(isFetching) {
             return (<Spinner/>)
         }
         return (
             <div>
 <CommentList commentList={commentList}></CommentList>
-            {isAuthenticated && <CommentForm blogPostId= {blogPostId}/>}
+            {isAuthenticated && isAdmin && <CommentForm blogPostId= {blogPostId}/>}
             </div>
             
         )

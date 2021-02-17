@@ -51,7 +51,7 @@ changePage(page) {
         return (
             <div>
             <PlayerList players={players} displayPhotos={displayPhotos}/>
-            <PlayerForm/>
+            {/* <PlayerForm/> */}
 
             <Paginator currentPage={currentPage} pageCount={10} setPage={this.changePage.bind(this)} />
             </div>

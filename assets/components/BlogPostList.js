@@ -11,7 +11,7 @@ class BlogPostList extends React.Component {
 
         
         if (!posts?.length) {
-            return (<Message message= "Blod Posts not found"/>)
+            return (<Message message= "Blog Posts not found"/>)
         }
         return (
             <div>

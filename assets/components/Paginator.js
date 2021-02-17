@@ -14,7 +14,7 @@ export class Paginator extends React.Component{
     render() {
         const {currentPage, setPage} = this.props
         return (
-            <nav style={{width:"100%"}}>
+            <nav style={{width:"100%", background:"white"}}>
                 <ul className="pagination">
                     <li className="page-item">
                         <button className="page-link">Previous</button>

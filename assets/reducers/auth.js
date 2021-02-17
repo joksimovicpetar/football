@@ -4,7 +4,8 @@ export default (state={
     token: null,
     userId: null,
     isAuthenticated: false,
-    userData: null 
+    userData: null,
+    isAdmin: false 
 }, action) => {
     switch(action.type) {
         case USER_LOGIN_SUCCESS:
@@ -25,7 +26,8 @@ export default (state={
                 ...state,
                 userData: (state.userId === action.userId && state.userData === null) 
                 ? action.userData : state.userData,
-                isAuthenticated: (state.userId === action.userId && state.userData === null) 
+                isAuthenticated: (state.userId === action.userId && state.userData === null),
+                isAdmin:  action.isAdmin
             }
         case USER_LOGOUT:
             return {
@@ -33,7 +35,8 @@ export default (state={
                 token: null,
                 userId: null,
                 isAuthenticated: false,
-                userData: null
+                userData: null,
+                isAdmin:  false
             }
         default: 
             return state;

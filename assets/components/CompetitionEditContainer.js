@@ -4,8 +4,10 @@ import { competitionFetch, competitionUnload, competitionDelete  } from '../acti
 import Competition from './Competition';
 import Spinner from './Spinner';
 import CompetitionForm  from './CompetitionForm'
+
 const mapStateToProps = state => ({
-    ...state.competition
+    ...state.competition,
+    isAdmin: state.auth.isAdmin
 })
 
 const mapDispatchToProps = {
@@ -20,13 +22,15 @@ class CompetitionEditContainer extends React.Component {
         this.props.competitionUnload()
     }
     render() {
-        const { isFetching, competition,  competitionDelete} = this.props;
+        const { isFetching, competition,  competitionDelete, isAdmin} = this.props;
+
         if (isFetching) {
             return (<Spinner />)
         }
+        
         return (
             <div>
-                <CompetitionForm competition={competition} ></CompetitionForm>
+               {isAdmin && <CompetitionForm competition={competition} ></CompetitionForm>} 
                 {/* {competition &&<GameListContainer competitionId={this.props.match.params.id} displayForm={false}/>} */}
 
             </div>

@@ -11,7 +11,9 @@ use App\Form\PerformanceType;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use App\Repository\PerformanceRepository;
+use App\Service\GameService;
 use App\Service\PerformanceService;
+use App\Service\PlayerService;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class PerformanceController extends AbstractApiController
@@ -31,18 +33,41 @@ class PerformanceController extends AbstractApiController
    *  @ParamConverter("performance", converter="fos_rest.request_body")
 
      */
-    public function new(Performance $performance, Request $request, PerformanceService $service)
+    public function new(Performance $performance, Request $request, PerformanceService $service, PlayerService $playerService, GameService $gameService)
     {
-        $form = $this->buildForm(PerformanceType::class, $performance);
 
-        $form->handleRequest($request);
+      $parameters = json_decode($request->getContent(), true);
+      // echo($content['host']);
+      $player = $playerService->find($parameters['player']);
+      $game = $gameService->find($parameters['game']);
+      // $game = ($parameters['game']);
+      $performance = new Performance();
+      $performance->setPlayer($player);
+      $performance->setGame($game);
+      $performance->setPlayerPerformance($parameters['playerPerformance']);
+
+  
+      // $form = $this->buildForm(CompetitionType::class, $competition);
+      // $form->handleRequest($request);
+  
+      // if (!$form->isSubmitted() || !$form->isValid()) {
+      //   return $this->respond($form, Response::HTTP_BAD_REQUEST);
+      // }
+  
+      // $competition = $form->getData();
+      // echo($name);
+      $service->save($performance);
+
+        // $form = $this->buildForm(PerformanceType::class, $performance);
+
+        // $form->handleRequest($request);
     
-        if (!$form->isSubmitted() || !$form->isValid()) {
-          return $this->respond($form, Response::HTTP_BAD_REQUEST);
-        }
+        // if (!$form->isSubmitted() || !$form->isValid()) {
+        //   return $this->respond($form, Response::HTTP_BAD_REQUEST);
+        // }
     
-        $performance = $form->getData();
-        $service->save($performance);
+        // $performance = $form->getData();
+        // $service->save($performance);
     
         $json = $this->serialize($performance, ['show_performance']);
         return $this->respond($json, Response::HTTP_CREATED);

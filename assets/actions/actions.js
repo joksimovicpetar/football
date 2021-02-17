@@ -21,6 +21,8 @@ import {
     CLUB_DELETE,
     CLUB_DELETED,
     CLUB_LIST_SET_PAGE,
+    COMPETITION_SORTING,
+    COMPETITION_SORTED,
     COMPETITION_LIST_RECIEVED,
     COMPETITION_LIST_ERROR,
     COMPETITION_LIST_REQUEST,
@@ -73,7 +75,6 @@ import {
     FOOTBALL_API_RESPONSE, 
     FOOTBALL_API_ERROR ,
     FOOTBALL_API_RECIEVED
-
 } from '../actions/constants'
 import { SubmissionError } from 'redux-form';
 import { parseApiErrors } from '../apiUtils'
@@ -296,7 +297,7 @@ export const clubAdd = (title, content) => {
                     return dispatch(userLogout())
                 }
                 else if (error.response.status === 403) {
-                    throw new SubmissionError({ _error: 'You do not have roghts to publish posts' })
+                    throw new SubmissionError({ _error: 'You do not have rights to publish club' })
 
                 }
 
@@ -305,10 +306,34 @@ export const clubAdd = (title, content) => {
         )
     }
 }
+export const competitionsSort = (competitions, asc) => {
+    return (dispatch) => {
+        dispatch(competitionsSorting());
+        return dispatch(competitionsSorted(competitions, asc))
+          
+    }
+}
+
+export const competitionsSorting = () => ({
+    type: COMPETITION_SORTING,
+});
+
+export const competitionsSorted = (competitions, asc) => {
+    let sorted;
+    if(asc) {
+        sorted = competitions.sort((a,b) => (a.name.toLowerCase() > b.name.toLowerCase()) ? 1 : ((b.name.toLowerCase() > a.name.toLowerCase()) ? -1 : 0))
+    } else {
+        sorted = competitions.sort((a,b) => (a.name.toLowerCase() < b.name.toLowerCase()) ? 1 : ((b.name.toLowerCase() < a.name.toLowerCase()) ? -1 : 0))
+    }
+    return {
+        type: COMPETITION_SORTED,
+        sorted
+    }
+    
+};
 
 export const competitionListRequest = () => ({
     type: COMPETITION_LIST_REQUEST,
-
 });
 
 export const competitionListError = (error) => ({
@@ -337,7 +362,6 @@ export const competitionListFetch = (page = 1) => {
             .catch(error => {
                 return dispatch(competitionListError(error))
             }
-               
                 )
     }
 }
@@ -524,12 +548,12 @@ export const performanceAdded = (performance) => ({
     performance
 });
 
-export const performanceAdd = (performance, blogPostId) => {
+export const performanceAdd = (player, game, playerPerformance) => {
     return (dispatch) => {
-        return requests.post('/club/new', {
-            name: performance
-            // content: comment,
-            // blogPost: `/api/blog-posts/${blogPostId}`
+        return requests.post('/performance/new', {
+            player,
+            game,
+            playerPerformance
         }
         ).then(
             response => {
@@ -537,11 +561,13 @@ export const performanceAdd = (performance, blogPostId) => {
             }
         ).catch(
             error => {
-                if (error.response.status === 401) {
-                    return dispatch(userLogout())
-                }
+                // if (error.response.status === 401) {
+                //     return dispatch(userLogout())
+                // }
 
-                throw new SubmissionError(parseApiErrors(error))
+                throw new SubmissionError(
+                    // parseApiErrors(error)
+                    )
             }
         )
     }
@@ -651,6 +677,7 @@ export const userLoginAttempt = (username, password) => {
     return (dispatch) => {
         return requests.post('/login_check', { username, password }, false).then(
             response => {
+                console.log('rec login resp', response)
                  return dispatch(userLoginSuccess(response.token, username))}
         ).catch(error => {
             throw new SubmissionError(
@@ -685,7 +712,8 @@ export const userProfileRecieved = (userData) => {
     return {
         type: USER_PROFILE_RECIEVED,
         userData,
-        userId: userData.email
+        userId: userData.email,
+        isAdmin: userData?.roles.includes("ROLE_ADMIN")
     }
 }
 

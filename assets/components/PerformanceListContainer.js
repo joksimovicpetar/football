@@ -1,9 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {performanceListFetch, performanceListUnload} from '../actions/actions';
-import BlogPost from './BlogPost';
 import PerformanceForm from './PerformanceForm';
-
 import PerformanceList from './PerformanceList';
 import  Spinner  from './Spinner';
 
@@ -15,6 +13,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
     performanceListFetch, performanceListUnload
 }
+
 class PerformanceListContainer extends React.Component {
     componentDidMount() {
         this.props.performanceListFetch(this.props.blogPostId)
@@ -25,15 +24,20 @@ class PerformanceListContainer extends React.Component {
     }
     render() {
         const {isFetching, performanceList, isAuthenticated, blogPostId} = this.props;
+
         if(isFetching) {
             return (<Spinner/>)
         }
+
+        if(!isAuthenticated) {
+            return (<Message message="Please Log In"/>)
+        }
+
         return (
             <div>
-<PerformanceList performanceList={performanceList}></PerformanceList>
-            {isAuthenticated && <PerformanceForm blogPostId= {blogPostId}/>}
+                <PerformanceList performanceList={performanceList}></PerformanceList>
+                {isAuthenticated && <PerformanceForm blogPostId= {blogPostId}/>}
             </div>
-            
         )
     }
 }

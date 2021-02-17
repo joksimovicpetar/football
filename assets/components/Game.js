@@ -1,17 +1,25 @@
 import React from 'react';
 import { post } from 'superagent';
 import Message from './Message'
+import { connect } from 'react-redux';
 
-export default class Game extends React.Component {
+const mapStateToProps = state => ({
+    ...state.game,
+    isAuthenticated: state.auth.isAuthenticated,
+    isAdmin: state.auth.isAdmin
+})
+class Game extends React.Component {
     componentDidMount() {
     }
 
     render() {
-        const {game} = this.props;
+        const {game, isAuthenticated, isAdmin} = this.props;
         if(!game) {
             return (<Message message="Game Not Found"/>)
         }
-
+        if(!isAuthenticated) {
+            return (<Message message="Please Log In"/>)
+        }
         return (
             <div className="card mb-3 shadow-sm" key={post.id}>
                         <div className="card-body">
@@ -39,3 +47,4 @@ export default class Game extends React.Component {
     }
 }
 
+export default connect(mapStateToProps, null)(Game); 

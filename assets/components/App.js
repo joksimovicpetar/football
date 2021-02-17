@@ -66,10 +66,10 @@ class App extends React.Component {
         }
     }
     render() {
-        const {isAuthenticated, userData, userLogout} = this.props;
+        const {isAuthenticated, userData, userLogout, isAdmin} = this.props;
+        console.log('isadmin', isAdmin);
         return (
             <div>
-                hello
                 <Header isAuthenticated={isAuthenticated} userData={userData} logout={userLogout}/>
                 <Switch>
                 <Route path="/login" component={LoginForm} />

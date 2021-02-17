@@ -30,4 +30,10 @@ class PlayerService{
        $competitions = $this->repository->findAll();
        return $competitions;
     }
+
+    function find($id) 
+    {
+       $player = $this->repository->find($id);
+       return $player;
+    }
 }

@@ -57,9 +57,12 @@ export default class Header extends React.Component {
               <li className="nav-item">
                 <a href="/performances" className="nav-link">Performances</a>
               </li>
+              <li className="nav-item">
+                <a href="/footballapi" className="nav-link">Champions League Matches</a>
+              </li>
             </ul>
           </div>
-
+          
         </div>
       </nav>
 

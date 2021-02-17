@@ -8,11 +8,11 @@ class CompetitionList extends React.Component {
 
     render() {
         const { competitions } = this.props;
-
-        
+ 
         if (!competitions?.length) {
             return (<Message message= "Competitions not found"/>)
         }
+
         return (
             <div>
                 {competitions && competitions.map(competition => (
@@ -20,7 +20,6 @@ class CompetitionList extends React.Component {
                         <div className="card-body">
                             <h3>
                                 <Link to={`/competition/${competition.id}`}>{competition.name}</Link>
-
                             </h3>
                             <p className="card-text border-top">
                                 <small className="text-muted">

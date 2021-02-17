@@ -13,10 +13,10 @@ const mapDispatchToProps = {
     clubListFetch,
     clubListSetPage
 }
+
 class ClubListContainer extends React.Component {
     componentDidMount() {
         this.props.clubListFetch(this.getQueryParamPage());   
-
     }
 
     componentDidUpdate(prevProps) {
@@ -40,8 +40,9 @@ changePage(page) {
     clubListSetPage(page);
     history.push(`/${page}`)
 }
+
     render() {
-        const {clubs, isFetching,  currentPage} = this.props;
+        const {clubs, isFetching, currentPage} = this.props;
        
         if (isFetching) {
             return (<Spinner/>)

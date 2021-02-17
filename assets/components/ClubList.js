@@ -1,18 +1,16 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import timeago from 'timeago.js'
 import Message from './Message'
 import  Spinner  from './Spinner';
 
 class ClubList extends React.Component {
-
     render() {
         const { clubs } = this.props;
 
-        
         if (!clubs?.length) {
-            return (<Message message= "Blod Posts not found"/>)
+            return (<Message message= "Clubs not found"/>)
         }
+        
         return (
             <div>
                 {clubs && clubs.map(club => (

@@ -2,13 +2,20 @@ import React from 'react';
 import Message from './Message'
 import { Redirect } from 'react-router';
 import { Link } from 'react-router-dom';
+// import { connect } from 'react-redux';
 
+// const mapStateToProps = state => ({
+//     ...state.competition,
+//     isAuthenticated: state.auth.isAuthenticated,
+//     isAdmin: state.auth.isAdmin
+// })
 export default class Competition extends React.Component {
     componentDidMount() {
     }
 
     render() {
-        const { competition } = this.props;
+        const { competition, isAdmin } = this.props;
+
         if (!competition) {
             return (<Message message="Competition not found" />)
         }
@@ -29,19 +36,17 @@ export default class Competition extends React.Component {
                                 </p>
                             </div>
                             <div className="col-lg">
-                            <div className="row">
-                            
-                            <Link to={`/competition/edit/${this.props.competition.id}`} className="btn btn-primary" style={{width:"300px"}}>Edit Competition</Link>
-
-                
-                                </div>
-
-                                <div className="row">
-
-                                <button className="btn btn-outline-primary mr-1" style={{width:"300px"}} onClick={ () => {
-                                    this.props.competitionDelete(competition.id)} }>Delete Competition</button>
-                                </div>
-                        </div>
+                                {isAdmin &&
+                                    <div>
+                                        <div className="row">
+                                            <Link to={`/competition/edit/${this.props.competition.id}`} className="btn btn-primary" style={{ width: "300px" }}>Edit Competition</Link>
+                                        </div>
+                                        <div className="row">
+                                            <button className="btn btn-outline-primary mr-1" style={{ width: "300px" }} onClick={() => {
+                                                this.props.competitionDelete(competition.id)
+                                            }}>Delete Competition</button>
+                                        </div></div>}
+                            </div>
                         </div>
 
                     </div>
@@ -50,4 +55,4 @@ export default class Competition extends React.Component {
         )
     }
 }
-
+// export default connect(mapStateToProps, null)(Competition);

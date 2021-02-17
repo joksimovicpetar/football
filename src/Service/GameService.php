@@ -27,7 +27,13 @@ class GameService{
 
     function findAll() 
     {
-       $competitions = $this->repository->findAll();
-       return $competitions;
+       $games = $this->repository->findAll();
+       return $games;
+    }
+
+    function find($id) 
+    {
+       $game = $this->repository->find($id);
+       return $game;
     }
 }

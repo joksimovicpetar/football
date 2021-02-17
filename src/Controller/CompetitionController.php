@@ -30,7 +30,6 @@ class CompetitionController extends AbstractApiController
   public function new(Competition $competition, Request $request, CompetitionService $service)
   {
     $parameters = json_decode($request->getContent(), true);
-    // echo($content['host']);
     $name = ($parameters['name']);
     $description = ($parameters['description']);
     $competition = new Competition();
@@ -45,7 +44,6 @@ class CompetitionController extends AbstractApiController
     // }
 
     // $competition = $form->getData();
-    echo($name);
     $service->save($competition);
 
     $json = $this->serialize($competition, ['show_competition']);

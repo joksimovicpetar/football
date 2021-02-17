@@ -4,6 +4,7 @@ import { clubFetch, clubUnload, clubDelete } from '../actions/actions';
 import Club from './Club';
 import Spinner from './Spinner';
 import PlayerListContainer from './PlayerListContainer'
+
 const mapStateToProps = state => ({
     ...state.club
 })
@@ -22,6 +23,7 @@ class ClubContainer extends React.Component {
 
     render() {
         const { isFetching, club, clubDelete } = this.props;
+        
         if (isFetching) {
             return (<Spinner />)
         }

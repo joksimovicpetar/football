@@ -1,8 +1,10 @@
-import { BLOG_POST_LIST, BLOG_POST_LIST_ADD, BLOG_POST_LIST_REQUEST, BLOG_POST_LIST_RECIEVED, BLOG_POST_LIST_ERROR } from "../actions/constants"
+import { BLOG_POST_LIST, BLOG_POST_LIST_ADD, BLOG_POST_LIST_REQUEST, BLOG_POST_LIST_RECIEVED, BLOG_POST_LIST_ERROR, BLOG_POST_LIST_SET_PAGE  } from "../actions/constants"
 
 export default (state = {
     posts: null,
-    isFetching: false
+    isFetching: false,
+    currentPage: 1,
+    pageCount: null
 }, action) => {
     switch (action.type) {
         case BLOG_POST_LIST_REQUEST:
@@ -10,7 +12,6 @@ export default (state = {
                 ...state,
                 isFetching: true
             };
-            console.log('w');
             return state;
         case BLOG_POST_LIST_RECIEVED:
             state = {
@@ -18,7 +19,6 @@ export default (state = {
                 posts: action.data,
                 isFetching: false,
             };
-            console.log('d');
             return state;
 
         case BLOG_POST_LIST_ERROR:
@@ -27,7 +27,6 @@ export default (state = {
                 isFetching: false,
                 posts: null
             };
-            console.log('s');
             return state;
 
         case BLOG_POST_LIST_ADD:
@@ -35,12 +34,14 @@ export default (state = {
                 ...state,
                 posts: state.posts ? state.posts.concat(action.data) : state.posts
             };
-            console.log('c');
             return state;
+        case BLOG_POST_LIST_SET_PAGE:
+            return {
+                ...state,
+                currentPage: action.page
+            }
 
         default:
-            console.log('sscccss');
-
             return state;
     }
 }

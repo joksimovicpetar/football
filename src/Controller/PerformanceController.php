@@ -22,7 +22,7 @@ class PerformanceController extends AbstractApiController
     public function index(PerformanceService $service): Response
     {
         $performances = $service->findAll();
-        $json = $this->serialize($performances, ['show_performance']);
+        $json = $this->serialize($performances, ['show_performance', 'show_player']);
         return $this->respond($json);
     }
 
@@ -78,7 +78,7 @@ class PerformanceController extends AbstractApiController
     */
    public function show(Performance $performance)
    {
-    $json = $this->serialize($performance, ['show_performance']);
+    $json = $this->serialize($performance, ['show_performance', 'show_player']);
     return $this->respond($json);
    }
  

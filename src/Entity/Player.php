@@ -68,6 +68,13 @@ class Player
     private $city;
 
     /**
+     * @ORM\ManyToOne(targetEntity=Club::class, inversedBy="player")
+     * @ORM\JoinColumn(nullable=false)
+     * @Groups({"show_player"})
+     */
+    private $club;
+
+    /**
      * @ORM\OneToMany(targetEntity=Performance::class, mappedBy="player")
      * @Groups({"show_player"})
      */
@@ -157,6 +164,18 @@ class Player
     public function setCity(?City $city): self
     {
         $this->city = $city;
+
+        return $this;
+    }
+
+    public function getClub(): ?Club
+    {
+        return $this->club;
+    }
+
+    public function setClub(?Club $club): self
+    {
+        $this->club = $club;
 
         return $this;
     }

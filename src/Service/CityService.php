@@ -30,4 +30,10 @@ class CityService{
        $cities = $this->repository->findAll();
        return $cities;
     }
+
+    function find($id) 
+    {
+       $city = $this->repository->find($id);
+       return $city;
+    }
 }

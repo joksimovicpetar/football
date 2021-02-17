@@ -1,0 +1,34 @@
+.profileImage {
+    width: 500px;
+    height:500px;
+
+}
+
+.profileImage .form-control-file:before{
+    content: attr(data-title);
+    position:absolute;
+    visibility: visible;
+    width: 100%;
+    border: 2px dashed lightgray;
+    border-radius: 6px;
+    text-align: center;
+    overflow: hidden;
+    color: #6c757d;
+    font-size: 1em;
+    min-height: 6em;
+    line-height: 2em;
+    padding-top: 2em;
+}
+.fade-enter-active {
+    opacity: 1;
+    transition: opacity 500ms ease-in;
+}
+
+.fade-exit {
+    opacity: 1;
+}
+
+.fade-exit-active {
+    opacity: 0.01;
+    transition: opacity 500ms ease-in;
+}

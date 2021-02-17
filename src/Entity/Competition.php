@@ -28,6 +28,12 @@ class Competition
     private $name;
 
     /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"show_competition", "show_game"})
+     */
+    private $description;
+
+    /**
      * @ORM\OneToMany(targetEntity=Game::class, mappedBy="competition")
      * @Groups({"show_competition"})
      */
@@ -51,6 +57,18 @@ class Competition
     public function setName(?string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
 
         return $this;
     }

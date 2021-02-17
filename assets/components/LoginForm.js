@@ -19,7 +19,6 @@ class LoginForm extends React.Component {
         }
     }
     onSubmit(values) {
-        console.log(values);
         return this.props.userLoginAttempt(
             values.username,
             values.password
@@ -27,7 +26,6 @@ class LoginForm extends React.Component {
     }
     render() {
         const {handleSubmit, error} = this.props
-        console.log(error);
         return (
             <div className="text-center">
                 {error && <div className ="alert alert-danger">{error}</div>}

@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Form\GameType;
+use App\Service\ClubService;
 use App\Service\GameService;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -19,7 +20,7 @@ class GameController extends AbstractApiController
   public function index(GameService $service)
   {
     $games = $service->findAll();
-    $json = $this->serialize($games, ['show_game']);
+    $json = $this->serialize($games, ['show_game', 'show_performance', 'show_club', 'show_player']);
     return $this->respond($json);
   }
 
@@ -27,19 +28,33 @@ class GameController extends AbstractApiController
    * @Route("/api/game/new", methods={"POST"}, name="new_game") 
    *  @ParamConverter("game", converter="fos_rest.request_body")
    */
-  public function new(Game $game, Request $request, GameService $service)
+  public function new(Game $game, Request $request, GameService $service, ClubService $clubService)
   {
-    $form = $this->buildForm(GameType::class, $game);
-    $form->handleRequest($request);
+    $parameters = json_decode($request->getContent(), true);
+    // echo($content['host']);
+    $host = $clubService->find($parameters['host']);
+    $guest = $clubService->find($parameters['guest']);
+    $date= $parameters['date'];
+    $game = new Game();
+    $game->setDate(new \DateTime($parameters['date']));
+    
+    // echo($host->getName());
+    // $form = $this->buildForm(GameType::class, $game);
+    // $form->handleRequest($request);
 
-    if (!$form->isSubmitted() || !$form->isValid()) {
-      return $this->respond($form, Response::HTTP_BAD_REQUEST);
-    }
+    // $game=new Game();
+    // $game->setName()
+    // if (!$form->isSubmitted() || !$form->isValid()) {
+    //   return $this->respond($form, Response::HTTP_BAD_REQUEST);
+    // }
 
-    $game = $form->getData();
+    // $game = $form->getData();
+    // echo($gg)
+    $game->setHost($host);
+    $game->setGuest($guest);
     $service->save($game);
 
-    $json = $this->serialize($game, ['show_game']);
+    $json = $this->serialize($game, ['show_game', "show_club"]);
     return $this->respond($json, Response::HTTP_CREATED);
   }
 
@@ -73,7 +88,7 @@ class GameController extends AbstractApiController
    */
   public function show(Game $game)
   {
-    $json = $this->serialize($game, ['show_game']);
+    $json = $this->serialize($game, ['show_game', 'show_performance', 'show_club', 'show_player']);
     return $this->respond($json);
   }
 

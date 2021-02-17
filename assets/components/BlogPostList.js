@@ -13,7 +13,6 @@ class BlogPostList extends React.Component {
         if (!posts?.length) {
             return (<Message message= "Blod Posts not found"/>)
         }
-        console.log('ss', posts);
         return (
             <div>
                 {posts && posts.map(post => (

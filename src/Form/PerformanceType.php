@@ -27,7 +27,7 @@ class PerformanceType extends AbstractType
                     ->orderBy('t.id', 'ASC');
             },
             'label' => 'Game',
-            'by_reference' => false,
+            'by_reference' => true,
             'attr' => [
                 'class' => 'select-tags'
             ]
@@ -42,7 +42,7 @@ class PerformanceType extends AbstractType
                         ->orderBy('t.lastName', 'ASC');
                 },
                 'label' => 'Player',
-                'by_reference' => false,
+                'by_reference' => true,
                 'attr' => [
                     'class' => 'select-tags',
                     'id' => 'player_id'

@@ -20,7 +20,7 @@ class ClubController extends AbstractApiController
   public function index(ClubService $service)
   {
     $clubs = $service->findAll();
-    $json = $this->serialize($clubs, ['show_club']);
+    $json = $this->serialize($clubs, ['show_club', 'show_player', 'show_game']);
     return $this->respond($json, Response::HTTP_CREATED);
   }
 
@@ -53,7 +53,7 @@ class ClubController extends AbstractApiController
    */
   public function show(Club $club)
   {
-    $json = $this->serialize($club, ['show_club']);
+    $json = $this->serialize($club, ['show_club','show_player']);
     return $this->respond($json);
   }
 
@@ -82,7 +82,7 @@ class ClubController extends AbstractApiController
   }
 
   /**
-   * @Route("/api/club/delete/{id}", name="delete_club")
+   * @Route("/api/club/delete/{id}",  methods={"DELETE"}, name="delete_club")
    */
   public function delete(Club $club, ClubService $service)
   {

@@ -16,7 +16,19 @@ import BlogPostContainer  from './BlogPostContainer'
 import AccessDenied from './AccessDenied';
 import { requests } from '../agent';
 import {connect} from 'react-redux'
-import {userProfileFetch, userSetId } from '../actions/actions'
+import {userProfileFetch, userSetId, userLogout } from '../actions/actions'
+import BlogPostForm from './BlogPostForm';
+import GameListContainer from './GameListContainer';
+import CompetitionListContainer from './CompetitionListContainer';
+import CompetitionContainer from './CompetitionContainter';
+import GameContainer from './GameContainer'
+import PerformanceListContainer from './PerformanceListContainer'
+import PlayerListContainer from './PlayerListContainer'
+import ClubListContainer from './ClubListContainer'
+import ClubContainer from './ClubContainer'
+import Seelector from './Select'
+import CompetitionEditContainer from './CompetitionEditContainer'
+import FootballApiContainer from './FootballApiContainer'
 
 const mapStateToProps = state => ({
     ...state.auth
@@ -24,7 +36,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
     userProfileFetch,
-    userSetId
+    userSetId,
+    userLogout
 }
 
 class App extends React.Component {
@@ -48,24 +61,37 @@ class App extends React.Component {
 
     componentDidUpdate(prevProps) {
         const {userId, userData, userProfileFetch} = this.props;
-
         if(prevProps.userId !== userId && userId !== null && userData===null) {
-            console.log('old user ', prevProps.userId);
             userProfileFetch(userId);
         }
     }
     render() {
-        const {isAuthenticated, userData} = this.props;
+        const {isAuthenticated, userData, userLogout} = this.props;
         return (
             <div>
                 hello
-                <Header isAuthenticated={isAuthenticated} userData={userData}/>
+                <Header isAuthenticated={isAuthenticated} userData={userData} logout={userLogout}/>
                 <Switch>
+                <Route path="/login" component={LoginForm} />
+                <Route path="/blog-post-form" component={BlogPostForm} />
                     <Route path="/city/:id" component={BlogPostListContainer} />
                     <Route path="/blog-post/:id" component={BlogPostContainer} />
-                    <Route path="/login" component={LoginForm} />
                     <Route path="/access-denied" component={AccessDenied} />
-                    <Route path="/" component={BlogPostListContainer} />
+                    <Route path="/game/:id" component={GameContainer} />
+                    <Route path="/games" component={GameListContainer} />
+                    <Route path="/competition/edit/:id" component={CompetitionEditContainer} />
+                    <Route path="/competition/:id" component={CompetitionContainer} />
+                    <Route path="/competitions" component={CompetitionListContainer} />
+                    <Route path="/performances" component={PerformanceListContainer} />
+                    <Route path="/players" component={PlayerListContainer} />
+                    <Route path="/club/:id" component={ClubContainer} />
+                    <Route path="/clubs" component={ClubListContainer} />
+                    <Route path="/footballapi" component={FootballApiContainer} />
+
+                    {/* <Route path="/selector" component={Seelector} /> */}
+                    
+                    <Route path="/:page?" component={CompetitionListContainer} />
+                    
                 </Switch>
             </div>
 

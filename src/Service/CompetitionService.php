@@ -30,4 +30,10 @@ class CompetitionService{
        $competitions = $this->repository->findAll();
        return $competitions;
     }
+
+    function find($id) 
+    {
+       $competition = $this->repository->find($id);
+       return $competition;
+    }
 }

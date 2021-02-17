@@ -32,4 +32,10 @@ class ClubService{
        $clubs = $this->repository->findAll();
        return $clubs;
     }
+
+    function find($id) 
+    {
+       $club = $this->repository->find($id);
+       return $club;
+    }
 }

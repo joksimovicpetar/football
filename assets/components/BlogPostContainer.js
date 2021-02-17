@@ -13,7 +13,6 @@ const mapDispatchToProps = {
 }
 class BlogPostContainer extends React.Component {
     componentDidMount() {
-        console.log(this.props);
         this.props.blogPostFetch(this.props.match.params.id)
     }
 
@@ -21,7 +20,6 @@ class BlogPostContainer extends React.Component {
         this.props.blogPostUnload()
     }
     render() {
-        console.log('invokeddd')
         const { isFetching, post } = this.props;
         if (isFetching) {
             return (<Spinner />)

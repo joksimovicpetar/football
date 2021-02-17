@@ -15,6 +15,9 @@ class CompetitionType extends AbstractType
         ->add('name', TextType::class, array(
             'attr' => array('class' => 'form-control')
           ))
+          ->add('description', TextType::class, array(
+            'attr' => array('class' => 'form-control')
+          ))
           ->add('save', SubmitType::class, array(
             'label' => 'Save',
             'attr' => array('class' => 'btn btn-primary mt-3')

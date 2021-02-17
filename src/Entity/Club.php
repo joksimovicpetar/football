@@ -31,10 +31,10 @@ class Club
     private $name;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Player::class, inversedBy="club")
+     * @ORM\OneToMany(targetEntity=Player::class, mappedBy="club", orphanRemoval=true)
      * @Groups({"show_club"})
      */
-    private $player;
+    private $players;
 
     /**
      * @ORM\OneToMany(targetEntity=Game::class, mappedBy="host")
@@ -52,6 +52,7 @@ class Club
     {
         $this->hostGames = new ArrayCollection();
         $this->guestGames = new ArrayCollection();
+        $this->players = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -71,18 +72,35 @@ class Club
         return $this;
     }
 
-    public function getPlayer(): ?Player
+     /**
+     * @return Collection|Player[]
+     */
+    public function getPlayers(): Collection
     {
-        return $this->player;
+        return $this->players;
     }
 
-    public function setPlayer(?Player $player): self
+    public function addPlayer(Player $player): self
     {
-        $this->player = $player;
+        if (!$this->players->contains($player)) {
+            $this->players[] = $player;
+            $player->setClub($this);
+        }
 
         return $this;
     }
 
+    public function removePlayer(Player $player): self
+    {
+        if ($this->players->removeElement($player)) {
+            // set the owning side to null (unless already changed)
+            if ($player->getClub() === $this) {
+                $player->setClub(null);
+            }
+        }
+
+        return $this;
+    }
     /**
      * @return Collection|Game[]
      */

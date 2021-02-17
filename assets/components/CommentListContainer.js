@@ -2,11 +2,14 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {commentListFetch, commentListUnload} from '../actions/actions';
 import BlogPost from './BlogPost';
+import CommentForm from './CommentForm';
+
 import CommentList from './CommentList';
 import  Spinner  from './Spinner';
 
 const mapStateToProps = state => ({
-    ...state.commentList
+    ...state.commentList,
+    isAuthenticated: state.auth.isAuthenticated
 })
 
 const mapDispatchToProps = {
@@ -14,7 +17,6 @@ const mapDispatchToProps = {
 }
 class CommentListContainer extends React.Component {
     componentDidMount() {
-        console.log('tatatta', this.props.blogPostId)
         this.props.commentListFetch(this.props.blogPostId)
     }
 
@@ -22,13 +24,16 @@ class CommentListContainer extends React.Component {
         this.props.commentListUnload();
     }
     render() {
-        console.log('invokeddd')
-        const {isFetching, commentList} = this.props;
+        const {isFetching, commentList, isAuthenticated, blogPostId} = this.props;
         if(isFetching) {
             return (<Spinner/>)
         }
         return (
-            <CommentList commentList={commentList}></CommentList>
+            <div>
+<CommentList commentList={commentList}></CommentList>
+            {isAuthenticated && <CommentForm blogPostId= {blogPostId}/>}
+            </div>
+            
         )
     }
 }

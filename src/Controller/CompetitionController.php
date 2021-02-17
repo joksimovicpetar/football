@@ -29,14 +29,23 @@ class CompetitionController extends AbstractApiController
    */
   public function new(Competition $competition, Request $request, CompetitionService $service)
   {
-    $form = $this->buildForm(CompetitionType::class, $competition);
-    $form->handleRequest($request);
+    $parameters = json_decode($request->getContent(), true);
+    // echo($content['host']);
+    $name = ($parameters['name']);
+    $description = ($parameters['description']);
+    $competition = new Competition();
+    $competition->setName($name);
+    $competition->setDescription($description);
 
-    if (!$form->isSubmitted() || !$form->isValid()) {
-      return $this->respond($form, Response::HTTP_BAD_REQUEST);
-    }
+    // $form = $this->buildForm(CompetitionType::class, $competition);
+    // $form->handleRequest($request);
 
-    $competition = $form->getData();
+    // if (!$form->isSubmitted() || !$form->isValid()) {
+    //   return $this->respond($form, Response::HTTP_BAD_REQUEST);
+    // }
+
+    // $competition = $form->getData();
+    echo($name);
     $service->save($competition);
 
     $json = $this->serialize($competition, ['show_competition']);
@@ -48,18 +57,29 @@ class CompetitionController extends AbstractApiController
    */
   public function edit(Competition $competition, Request $request, CompetitionService $service)
   {
-    if (!$competition) {
-      throw new NotFoundHttpException('Competition not found');
-    }
+    // if (!$competition) {
+    //   throw new NotFoundHttpException('Competition not found');
+    // }
 
-    $form = $this->buildForm(CompetitionType::class, $competition);
-    $form->handleRequest($request);
+    // $form = $this->buildForm(CompetitionType::class, $competition);
+    // $form->handleRequest($request);
 
-    if (!$form->isSubmitted()) {
-      return $this->respond($form, Response::HTTP_BAD_REQUEST);
-    }
+    // if (!$form->isSubmitted()) {
+    //   return $this->respond($form, Response::HTTP_BAD_REQUEST);
+    // }
+    $parameters = json_decode($request->getContent(), true);
+    // echo($content['host']);
+    $name = ($parameters['name']);
+    $description = ($parameters['description']);
+    $id = ($parameters['id']);
+    $competition = $service->find($id);
+    
 
-    $competition = $form->getData();
+    $competition->setName($name);
+    $competition->setDescription($description);
+
+
+    // $competition = $form->getData();
     $service->update($competition);
 
     $json = $this->serialize($competition, ['show_competition']);
